@@ -85,11 +85,11 @@ with serial.open('wb') as log:
                 ready = subprocess.run(['adb', '-s', endpoint, 'shell', 'service', 'check', 'package'], check=True, stdin=subprocess.DEVNULL, capture_output=True, text=True, timeout=30)
                 assert 'found' in ready.stdout and 'not found' not in ready.stdout, ready
                 if len(sys.argv) > 3:
-                    def adb(*arguments, check=True):
+                    def adb(*arguments, check=True, timeout=120):
                         print('ADB operation:', arguments[:3], flush=True)
                         if arguments and arguments[0] == 'shell':
                             arguments = ('shell', shlex.join(arguments[1:]))
-                        return subprocess.run(['adb', '-s', endpoint, *arguments], check=check, stdin=subprocess.DEVNULL, capture_output=True, text=True, timeout=120)
+                        return subprocess.run(['adb', '-s', endpoint, *arguments], check=check, stdin=subprocess.DEVNULL, capture_output=True, text=True, timeout=timeout)
                     # The offline fixture cannot query its preinstalled cloud scanner.
                     # Package-manager certificate and APK integrity checks remain enabled.
                     adb('shell', 'settings', 'put', 'global', 'verifier_verify_adb_installs', '0')
