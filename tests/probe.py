@@ -90,13 +90,18 @@ with serial.open('wb') as log:
                         print('ADB operation:', arguments[:3], flush=True)
                         if arguments and arguments[0] == 'shell':
                             arguments = ('shell', shlex.join(arguments[1:]))
-                        return subprocess.run(['adb', '-s', endpoint, *arguments], check=check, stdin=subprocess.DEVNULL, capture_output=True, text=True, timeout=timeout)
+                        result = subprocess.run(['adb', '-s', endpoint, *arguments], check=False, stdin=subprocess.DEVNULL, capture_output=True, text=True, timeout=timeout)
+                        if check and result.returncode:
+                            raise AssertionError('ADB operation failed: ' + repr(arguments) + '\n' + result.stdout + result.stderr)
+                        return result
                     # The offline fixture cannot query its preinstalled cloud scanner.
                     # Package-manager certificate and APK integrity checks remain enabled.
                     adb('shell', 'settings', 'put', 'global', 'verifier_verify_adb_installs', '0')
                     assert adb('shell', 'settings', 'get', 'global', 'verifier_verify_adb_installs').stdout.strip() == '0'
                     adb('shell', 'settings', 'put', 'global', 'device_provisioned', '1')
                     adb('shell', 'settings', 'put', 'secure', 'user_setup_complete', '1')
+                    for scale in ('window_animation_scale', 'transition_animation_scale', 'animator_duration_scale'):
+                        adb('shell', 'settings', 'put', 'global', scale, '0')
                     adb('shell', 'wm', 'dismiss-keyguard')
                     runpy.run_path(sys.argv[3], init_globals={'adb': adb})
                 break

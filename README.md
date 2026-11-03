@@ -51,3 +51,9 @@ rejected tampering and uninstall. This fixture is not a claim of modern stock
 Android, ARM device, split APK, app bundle or app-store publication coverage.
 
 Original code is MIT; upstream tools and test images retain their own licenses.
+
+The VM derives its boot image from the pinned upstream ISO, omitting only its
+preinstalled Chrome and Google Play services APKs. Their unrelated first-boot
+compilation and background work can starve the UI watchdog on small TCG runners.
+The kernel, framework, package manager, native signature checks and test-app UI
+remain real. Fixture UI animations are disabled to reduce unnecessary rendering.
