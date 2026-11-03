@@ -56,6 +56,9 @@ with serial.open('wb') as log:
                 console('stty sane -echo -iuclc -olcuc')
                 # stty flushes queued terminal input; send setup only after it returns.
                 time.sleep(2)
+                # Android P's default Skia GL path stalls system_server under slow TCG.
+                # Select its upstream HWUI GL pipeline before framework UI initialization.
+                console('setprop debug.hwui.renderer opengl')
                 configure_network()
                 if key.exists():
                     console('mkdir -p /data/misc/adb; echo ' + shlex.quote(key.read_text().strip()) +
@@ -83,6 +86,8 @@ with serial.open('wb') as log:
                 collector = subprocess.Popen(['adb', '-s', endpoint, 'logcat', '-b', 'all', '-v', 'threadtime'], stdout=collector_stream, stderr=subprocess.STDOUT)
             if status.returncode == 0 and status.stdout.strip() == '1':
                 print('Android framework booted', flush=True)
+                renderer = subprocess.run(['adb', '-s', endpoint, 'shell', 'getprop', 'debug.hwui.renderer'], check=True, capture_output=True, text=True, timeout=30)
+                assert renderer.stdout.strip() == 'opengl', renderer
                 ready = subprocess.run(['adb', '-s', endpoint, 'shell', 'service', 'check', 'package'], check=True, stdin=subprocess.DEVNULL, capture_output=True, text=True, timeout=30)
                 assert 'found' in ready.stdout and 'not found' not in ready.stdout, ready
                 if len(sys.argv) > 3:
@@ -94,6 +99,8 @@ with serial.open('wb') as log:
                         if check and result.returncode:
                             raise AssertionError('ADB operation failed: ' + repr(arguments) + '\n' + result.stdout + result.stderr)
                         return result
+                    ui_log = adb('logcat', '-d', '-s', 'OpenGLRenderer:D', '*:S').stdout
+                    assert 'HWUI GL Pipeline' in ui_log, 'Expected upstream HWUI GL renderer: ' + ui_log
                     # The offline fixture cannot query its preinstalled cloud scanner.
                     # Package-manager certificate and APK integrity checks remain enabled.
                     adb('shell', 'settings', 'put', 'global', 'verifier_verify_adb_installs', '0')

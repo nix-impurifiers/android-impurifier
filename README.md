@@ -57,3 +57,9 @@ preinstalled Chrome and Google Play services APKs. Their unrelated first-boot
 compilation and background work can starve the UI watchdog on small TCG runners.
 The kernel, framework, package manager, native signature checks and test-app UI
 remain real. Fixture UI animations are disabled to reduce unnecessary rendering.
+
+The software-QEMU fixture selects Android P's upstream `debug.hwui.renderer=opengl`
+pipeline before framework UI initialization. Its default Skia GL pipeline can
+block system_server's UI thread on slow emulated CI runners. The test still
+launches real Activities and JNI payloads; it does not disable the watchdog,
+package verification or the graphical framework.
