@@ -43,7 +43,8 @@ with serial.open('wb') as log:
         console('for dev in /sys/class/net/*; do if [ "$(cat "$dev/address")" = 52:54:00:12:34:56 ]; then nic=${dev##*/}; ip link set "$nic" up; ip addr replace 10.0.2.15/24 dev "$nic"; ip route replace default via 10.0.2.2 dev "$nic"; fi; done; ip rule add priority 100 lookup main')
     try:
         subprocess.run(['adb', 'start-server'], check=True, stdin=subprocess.DEVNULL, timeout=15)
-        deadline = time.monotonic() + 480
+        # Cold first-boot DEX compilation of the pinned upstream image is slow on CI TCG.
+        deadline = time.monotonic() + 1200
         next_report = time.monotonic() + 30
         configured = False
         while time.monotonic() < deadline:
