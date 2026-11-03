@@ -1,0 +1,34 @@
+[
+  {
+    "url": "https://repo.maven.apache.org/maven2/org/smali/smali/2.5.2/smali-2.5.2.jar",
+    "hash": "sha256-E2xcRlPWUxvXtvEPNfhpHLlkMucn0wtNVXmCbuAelBk="
+  },
+  {
+    "url": "https://repo.maven.apache.org/maven2/org/smali/dexlib2/2.5.2/dexlib2-2.5.2.jar",
+    "hash": "sha256-WlyJgti9fW47saBxMEnjx4txnsMrIPa2GYhc7DCg3WE="
+  },
+  {
+    "url": "https://repo.maven.apache.org/maven2/org/smali/util/2.5.2/util-2.5.2.jar",
+    "hash": "sha256-T1gKnP8+u4PLP9IL7Ijjfk8YN5bKZScymSYRYgKC2uo="
+  },
+  {
+    "url": "https://repo.maven.apache.org/maven2/org/antlr/antlr/3.5.2/antlr-3.5.2.jar",
+    "hash": "sha256-WsNsKs+woPPTfa/iC1tXDyZD4tAAxkjURQPCc4vmQ98="
+  },
+  {
+    "url": "https://repo.maven.apache.org/maven2/org/antlr/antlr-runtime/3.5.2/antlr-runtime-3.5.2.jar",
+    "hash": "sha256-zj/I7LEPOemjzdy7LONQ0nLZzT0LHhjm/nPDuTichzQ="
+  },
+  {
+    "url": "https://repo.maven.apache.org/maven2/org/antlr/stringtemplate/3.2.1/stringtemplate-3.2.1.jar",
+    "hash": "sha256-9mznLpZeUwHLDwIOVNK6atdv65Gzy/ww278AwGpt9tc="
+  },
+  {
+    "url": "https://repo.maven.apache.org/maven2/com/beust/jcommander/1.64/jcommander-1.64.jar",
+    "hash": "sha256-FWvnNhmcmQMh2f93CQsZlinPyYZeLWwT980pG7FkGBc="
+  },
+  {
+    "url": "https://repo.maven.apache.org/maven2/com/google/guava/guava/27.1-android/guava-27.1-android.jar",
+    "hash": "sha256-aGQE8tHU0iGRH5a9Yn/2DawiJqXfpvuLpRcHPrl+wO8="
+  }
+]
