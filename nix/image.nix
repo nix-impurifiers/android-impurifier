@@ -39,7 +39,7 @@ let
         done
         zerofree system/system.img
         env -u SOURCE_DATE_EPOCH mksquashfs system system.cleaned.sfs -noappend -all-root -all-time 1 -mkfs-time 1 -no-progress -processors 1
-        xorriso -indev ${sourceIso} -outdev "$out/boot.iso" -map system.cleaned.sfs /system.sfs -boot_image any replay
+        xorriso -indev ${sourceIso} -outdev "$out/boot.iso" -map system.cleaned.sfs /system.sfs -boot_image any replay -volume_date all_file_dates 1970010100000100 -volume_date uuid 1970010100000100
       '';
 in
 image
